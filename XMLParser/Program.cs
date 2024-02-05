@@ -7,17 +7,22 @@ public class Program
 {
     public static void Main()
     {
+        //Обязательно прописать путь до считываемого файла
         XElement document = XElement.Load("data.xml");
         string connectionString = "Server=localhost;Database=master;Trusted_Connection=True;Encrypt=False;";
         SqlConnection connection = new SqlConnection(connectionString);
 
         connection.Open();
 
+        Console.WriteLine("Добавление пользователей");
         insertUsers(document, connection);
+        Console.WriteLine("Добавление товара");
         insertProducts(document, connection);
+        Console.WriteLine("Добавление заказов");
         insertOrders(document, connection);
+        Console.WriteLine("Добавление покупок");
         insertPurchases(document, connection);
-
+        Console.WriteLine("Готово!");
         connection.Close();
     }
     public static void insertUsers(XElement document, SqlConnection connection)
