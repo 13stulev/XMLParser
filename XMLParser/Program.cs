@@ -138,7 +138,7 @@ public class Program
                     SqlParameter sumParameter = new SqlParameter("@sum", Double.TryParse(order.sum?.Replace('.', ','), out sum) ? sum : DBNull.Value);
                     command.Parameters.Add(sumParameter);
                     int rows = command.ExecuteNonQuery();
-                    if (rows == 0) Console.WriteLine($"Строка {order.ToString()} не была добавлена");
+                    if (rows == 0) Console.WriteLine($"Строка {{ no = {order.num} regDate = {order.regDate} name = {order.name} sum = {order.sum} }} не была добавлена");
                     transaction.Commit();
                     
                 } catch(Exception ex)
