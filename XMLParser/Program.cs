@@ -51,7 +51,8 @@ public class Program
                     command.Parameters.Add(fioParameter);
                     SqlParameter emailParameter = new SqlParameter("@email", user.mail is null ? DBNull.Value : user.mail);
                     command.Parameters.Add(emailParameter);
-                    command.ExecuteNonQuery();
+                    int rows = command.ExecuteNonQuery();
+                    if (rows == 0) Console.WriteLine($"Строка {user.ToString()} не была добавлена");
                     transaction.Commit();
                 } catch(Exception ex)
                 {
@@ -85,7 +86,8 @@ public class Program
                     command.Parameters.Add(nameParameter);
                     SqlParameter priceParameter = new SqlParameter("@price", Double.TryParse(product.price?.Replace(".", ","), out res) ? res : DBNull.Value);
                     command.Parameters.Add(priceParameter);
-                    command.ExecuteNonQuery();
+                    int rows = command.ExecuteNonQuery();
+                    if (rows == 0) Console.WriteLine($"Строка {product.ToString()} не была добавлена");
                     transaction.Commit();
                 } catch(Exception ex)
                 {
@@ -135,8 +137,10 @@ public class Program
                     command.Parameters.Add(emailParameter);
                     SqlParameter sumParameter = new SqlParameter("@sum", Double.TryParse(order.sum?.Replace('.', ','), out sum) ? sum : DBNull.Value);
                     command.Parameters.Add(sumParameter);
-                    command.ExecuteNonQuery();
+                    int rows = command.ExecuteNonQuery();
+                    if (rows == 0) Console.WriteLine($"Строка {order.ToString()} не была добавлена");
                     transaction.Commit();
+                    
                 } catch(Exception ex)
                 {
                     transaction.Rollback();
@@ -164,7 +168,6 @@ public class Program
 
         if (orders != null)
         {
-
             foreach (var order in orders)
             {
                 foreach (var product in order.products)
@@ -185,7 +188,8 @@ public class Program
                             command.Parameters.Add(quantityParameter);
                             SqlParameter numParameter = new SqlParameter("@num", Int32.TryParse(order.num, out num) ? num : DBNull.Value);
                             command.Parameters.Add(numParameter);
-                            command.ExecuteNonQuery();
+                            int rows = command.ExecuteNonQuery();
+                            if (rows == 0) Console.WriteLine($"Строка {product.ToString()} не была добавлена");
                             transaction.Commit();
                         } catch(Exception ex)
                         {
